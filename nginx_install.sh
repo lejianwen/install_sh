@@ -306,9 +306,10 @@ echo '   gzip_vary on;' >> $setuppath/$nginxname/conf/nginx.conf
 
 echo '   server {' >> $setuppath/$nginxname/conf/nginx.conf
 echo '        listen       80;' >> $setuppath/$nginxname/conf/nginx.conf
+echo '        #listen       443 ssl http2;' >> $setuppath/$nginxname/conf/nginx.conf
 echo '        server_name  localhost;' >> $setuppath/$nginxname/conf/nginx.conf
 echo '        access_log  logs/host.access.log  main;' >> $setuppath/$nginxname/conf/nginx.conf
-echo '        root   /Data/htdocs/happicloud.happigo.com;' >> $setuppath/$nginxname/conf/nginx.conf
+echo '        root   /data/htdocs/52fmz.top;' >> $setuppath/$nginxname/conf/nginx.conf
 echo '        index  index.html index.htm index.php;' >> $setuppath/$nginxname/conf/nginx.conf
 
 echo '        location /nginx-status {' >> $setuppath/$nginxname/conf/nginx.conf
