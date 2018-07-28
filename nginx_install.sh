@@ -2,39 +2,37 @@
 
 function addnginxservice
 {  
-	
-
-		if [ ! -f "/usr/lib/systemd/system/nginx.service" ]
+	if [ ! -f "/usr/lib/systemd/system/nginx.service" ]
+	then
+		echo "是否创建nginx.service，交给sysctemd 管理，输入 yes 是"
+		read isyes
+		if [ -z "$isyes" ]
 		then
-			echo "是否创建nginx.service，交给sysctemd 管理，输入 yes 是"
-			read isyes
+		  echo "无输入"
+		elif [ $isyes = "yes" ]
+		then
+			touch /usr/lib/systemd/system/nginx.service
+			true > /usr/lib/systemd/system/nginx.service
+			echo '[Unit]' 												  >> /usr/lib/systemd/system/nginx.service
+			echo 'Description=The Nginx Manager'                          >> /usr/lib/systemd/system/nginx.service
+			echo 'After=network.target'                                   >> /usr/lib/systemd/system/nginx.service
+	        echo ''                                                       >> /usr/lib/systemd/system/nginx.service
+			echo '[Service]'                                              >> /usr/lib/systemd/system/nginx.service
+			echo 'Type=forking'                                           >> /usr/lib/systemd/system/nginx.service
+			echo "PIDFile=$setuppath/$nginxname/logs/nginx.pid"           >> /usr/lib/systemd/system/nginx.service
+			echo "ExecStart=$setuppath/$nginxname/sbin/nginx"             >> /usr/lib/systemd/system/nginx.service
+			echo "ExecReload=$setuppath/$nginxname/sbin/nginx -s reload"  >> /usr/lib/systemd/system/nginx.service
+			echo "ExecStop=$setuppath/$nginxname/sbin/nginx -s stop"      >> /usr/lib/systemd/system/nginx.service
+			echo 'Restart=always'                                         >> /usr/lib/systemd/system/nginx.service
+	        echo ''                                                       >> /usr/lib/systemd/system/nginx.service
+			echo '[Install]'                                              >> /usr/lib/systemd/system/nginx.service
+			echo 'WantedBy=multi-user.target'                             >> /usr/lib/systemd/system/nginx.service
+			systemctl enable nginx
 
-			if [ -z "$isyes" ]
-			then
-			echo "无输入"
-			elif [ $isyes = "yes" ]
-			then		
-				touch /usr/lib/systemd/system/nginx.service
-				true > /usr/lib/systemd/system/nginx.service
-				echo '[Unit]' 												  >> /usr/lib/systemd/system/nginx.service
-				echo 'Description=The Nginx Manager'                          >> /usr/lib/systemd/system/nginx.service
-				echo 'After=network.target'                                   >> /usr/lib/systemd/system/nginx.service
-	            echo ''                                                       >> /usr/lib/systemd/system/nginx.service
-				echo '[Service]'                                              >> /usr/lib/systemd/system/nginx.service
-				echo 'Type=forking'                                           >> /usr/lib/systemd/system/nginx.service
-				echo "PIDFile=$setuppath/$nginxname/logs/nginx.pid"           >> /usr/lib/systemd/system/nginx.service
-				echo "ExecStart=$setuppath/$nginxname/sbin/nginx"             >> /usr/lib/systemd/system/nginx.service
-				echo "ExecReload=$setuppath/$nginxname/sbin/nginx -s reload"  >> /usr/lib/systemd/system/nginx.service
-				echo "ExecStop=$setuppath/$nginxname/sbin/nginx -s stop"      >> /usr/lib/systemd/system/nginx.service
-				echo 'Restart=always'                                         >> /usr/lib/systemd/system/nginx.service
-	            echo ''                                                       >> /usr/lib/systemd/system/nginx.service                                     
-				echo '[Install]'                                              >> /usr/lib/systemd/system/nginx.service
-				echo 'WantedBy=multi-user.target'                             >> /usr/lib/systemd/system/nginx.service
-				systemctl enable nginx
-			else
-				echo "nginx service is have!"
-			fi
-		fi   
+		fi
+	else
+        echo "nginx service is have!"
+	fi
 	
 }
 
@@ -73,9 +71,14 @@ xiazaipath=/data/src
 cd $xiazaipath
 
 
-echo "请输入nginx名称。"
+echo "请输入nginx目录名称。默认为nginx"
 read nginxname
-#提示用户输入要安装的nginx名称
+
+if [ -z $nginxname ]
+	then
+	nginxname='nginx'
+fi
+
 cd $setuppath
 if [ ! -d "$nginxname" ]
 then
@@ -97,8 +100,14 @@ then
 
 	if [ ! -f "nginx.tar.gz" ]
 	then
-	   echo -e "请输入nginx安装包url,比如：\033[32m http://nginx.org/download/nginx-1.15.2.tar.gz \033[0m"
+	   echo -e "请输入nginx安装包url,比如：\033[32m http://nginx.org/download/nginx-1.15.2.tar.gz \033[0m 不输入则使用示例地址"
 	   read url
+
+	   if [ -z $url ]
+	   		then
+	   		url='http://nginx.org/download/nginx-1.15.2.tar.gz'
+	   fi
+
 	   wget $url -O nginx.tar.gz
 	# else
 	#    rm -rf nginx
@@ -106,19 +115,28 @@ then
 
 	# luaisyes=''
 
-	echo -e "是否安装ngx_lua,输入 \033[32m yes \033[0m 安装 \n"
+	echo -e "是否安装ngx_lua,输入 \033[32m yes \033[0m 安装, 默认安装"
 	# echo "一个基于ngx_lua的web应用的高性能轻量级防火墙"
 	read luaisyes
+
 	if [ -z "$luaisyes" ]
 	then
-		echo "无输入，保留旧配置"
-	elif [ $luaisyes = "yes" ]
+		luaisyes='yes'
+	fi
+
+	if [ $luaisyes = "yes" ]
 	then
 		# luaisyes='yes'
 	    if [ ! -f "LuaJIT.tar.gz" ]
 	    then
-		    echo -e "请输入LuaJIT.tar.gz安装包url,比如：\033[32m http://luajit.org/download/LuaJIT-2.0.5.tar.gz \033[0m"
+		    echo -e "请输入LuaJIT.tar.gz安装包url,比如：\033[32m http://luajit.org/download/LuaJIT-2.0.5.tar.gz \033[0m , 不输入则使用示例地址"
 			read url;
+
+			if [ -z $url ]
+		   		then
+		   		url='http://luajit.org/download/LuaJIT-2.0.5.tar.gz'
+		   	fi
+
 			wget $url -O LuaJIT.tar.gz
 		# else
 		#     rm -rf LuaJIT
@@ -126,8 +144,15 @@ then
 		
 		if [ ! -f "lua-nginx-module.tar.gz" ]
 	    then 
-		    echo -e "请输入lua-nginx-module.tar.gz安装包url,比如：\033[32m https://github.com/openresty/lua-nginx-module/archive/v0.10.13.tar.gz \033[0m"
+		    echo -e "请输入lua-nginx-module.tar.gz安装包url,比如：\033[32m https://github.com/openresty/lua-nginx-module/archive/v0.10.13.tar.gz \033[0m ， 不输入则使用示例地址"
 			read url;
+
+
+			if [ -z $url ]
+		   		then
+		   		url='https://github.com/openresty/lua-nginx-module/archive/v0.10.13.tar.gz'
+		   	fi
+
 			wget $url -O lua-nginx-module.tar.gz
 		# else
 		#     rm -rf lua-nginx-module
@@ -135,8 +160,14 @@ then
 		
 		if [ ! -f "ngx_devel_kit.tar.gz" ]
 	    then
-		    echo -e "请输入ngx_devel_kit.tar.gz安装包url,比如：\033[32m https://github.com/simplresty/ngx_devel_kit/archive/v0.3.1rc1.tar.gz \033[0m"
+		    echo -e "请输入ngx_devel_kit.tar.gz安装包url,比如：\033[32m https://github.com/simplresty/ngx_devel_kit/archive/v0.3.1rc1.tar.gz \033[0m 不输入则使用示例地址"
 			read url;
+
+			if [ -z $url ]
+		   		then
+		   		url='https://github.com/openresty/lua-nginx-module/archive/v0.10.13.tar.gz'
+		   	fi
+
 			wget $url -O ngx_devel_kit.tar.gz
 		# else
 		#     rm -rf ngx_devel_kit
@@ -178,8 +209,8 @@ then
 
 		if [ -z "$lua_add_type" ]
 		then
-		echo '无输入，默认1'
-		lua_add_type=1
+          echo '无输入，默认1'
+          lua_add_type=1
 		fi
 
 		if [ $lua_add_type = 2 ] 
@@ -218,16 +249,10 @@ then
 		--with-http_realip_module \
 		--with-http_v2_module     
 	fi
-
-
 	make -j2  && make install
 
-#cd $setuppath
-#chown -R www.www $setuppath/$nginxname
-#chmod -R +x $nginxname
 fi
 
-#修改配置文件
 #修改配置文件
 
 cd $setuppath/$nginxname/conf
@@ -249,13 +274,13 @@ echo '             fastcgi_buffer_size          4k;' >> $setuppath/$nginxname/co
 echo '             fastcgi_buffers 8 4k;' >> $setuppath/$nginxname/conf/php.conf
 echo '             fastcgi_busy_buffers_size 8k;' >> $setuppath/$nginxname/conf/php.conf
 echo '             fastcgi_temp_file_write_size 8k;' >> $setuppath/$nginxname/conf/php.conf
-#echo '             fastcgi_cache TEST;' >> $setuppath/$nginxname/conf/php.conf
+echo '             #fastcgi_cache TEST;' >> $setuppath/$nginxname/conf/php.conf
 echo '             fastcgi_cache_valid 200 302 1h;' >> $setuppath/$nginxname/conf/php.conf
 echo '             fastcgi_cache_valid 301 1d;' >> $setuppath/$nginxname/conf/php.conf
 echo '             fastcgi_cache_valid any 1m;' >> $setuppath/$nginxname/conf/php.conf
 echo '             fastcgi_cache_min_uses 1;' >> $setuppath/$nginxname/conf/php.conf
-#echo '             fastcgi_cache_use_stale error timeout invalid_header http_500;' >> $setuppath/$nginxname/conf/php.conf
-#echo "             fastcgi_cache_path $setuppath/$nginxname/fastcgi_cache levels=1:2 keys_zone=TEST:10m inactive=5m;" >> $setuppath/$nginxname/conf/php.conf         
+echo '             #fastcgi_cache_use_stale error timeout invalid_header http_500;' >> $setuppath/$nginxname/conf/php.conf
+echo "             #fastcgi_cache_path $setuppath/$nginxname/fastcgi_cache levels=1:2 keys_zone=TEST:10m inactive=5m;" >> $setuppath/$nginxname/conf/php.conf
 echo '             fastcgi_pass   127.0.0.1:9000;' >> $setuppath/$nginxname/conf/php.conf
 echo '             fastcgi_index  index.php;' >> $setuppath/$nginxname/conf/php.conf
 echo '             fastcgi_param  SCRIPT_FILENAME  $document_root/$fastcgi_script_name;' >> $setuppath/$nginxname/conf/php.conf
