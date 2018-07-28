@@ -63,7 +63,7 @@ then
 fi
 
 yum -y install gcc gcc-c++
-yum -y install automake autoconf libtool make
+yum -y install automake autoconf libtool make wget
 yum -y install zlib zlib-devel openssl openssl-devel pcre pcre-devel
 
 setuppath=/data/apps
