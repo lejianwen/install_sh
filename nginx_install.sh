@@ -11,7 +11,7 @@ function addnginxservice
 
 			if [ -z "$isyes" ]
 			then
-			echo "not set, keep old set"
+			echo "无输入"
 			elif [ $isyes = "yes" ]
 			then		
 				touch /usr/lib/systemd/system/nginx.service
@@ -30,7 +30,7 @@ function addnginxservice
 	            echo ''                                                       >> /usr/lib/systemd/system/nginx.service                                     
 				echo '[Install]'                                              >> /usr/lib/systemd/system/nginx.service
 				echo 'WantedBy=multi-user.target'                             >> /usr/lib/systemd/system/nginx.service
-
+				systemctl enable nginx
 			else
 				echo "nginx service is have!"
 			fi
@@ -111,7 +111,7 @@ then
 	read luaisyes
 	if [ -z "$luaisyes" ]
 	then
-		echo "保留旧配置"
+		echo "无输入，保留旧配置"
 	elif [ $luaisyes = "yes" ]
 	then
 		# luaisyes='yes'
@@ -164,7 +164,7 @@ then
 
 		
 	else
-	    echo "not set, keep old set"
+	    echo "输入无效，无操作"
 	fi
 
 	mkDir nginx
@@ -175,7 +175,13 @@ then
 	then
 		echo "请输入ngx_lua安装模式：1 直接载入， 2 动态载入； 默认 1 "
 		read lua_add_type
-		
+
+		if [ -z "$lua_add_type" ]
+		then
+		echo '无输入，默认1'
+		lua_add_type=1
+		fi
+
 		if [ $lua_add_type = 2 ] 
 		then
 		./configure --user=www \
