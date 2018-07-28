@@ -165,7 +165,7 @@ then
 
 			if [ -z $url ]
 		   		then
-		   		url='https://github.com/openresty/lua-nginx-module/archive/v0.10.13.tar.gz'
+		   		url='https://github.com/simplresty/ngx_devel_kit/archive/v0.3.1rc1.tar.gz'
 		   	fi
 
 			wget $url -O ngx_devel_kit.tar.gz

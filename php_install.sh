@@ -15,8 +15,14 @@ function phpsetup #setuppath #xiazaipath
 		cd $2
 		if [ ! -f "php.tar.gz" ]
 		then
-			echo "please input php url,example:http://cn2.php.net/get/php-7.0.28.tar.gz/from/this/mirror"
+			echo -e "请输入php下载地址,比如: \033[32m  http://cn2.php.net/get/php-7.0.28.tar.gz/from/this/mirror \033[0m； 不输入则使用示例地址"
 			read url
+
+			if [ -z $url ]
+		   	then
+		   		url='http://cn2.php.net/get/php-7.0.28.tar.gz/from/this/mirror'
+		   	fi	
+
 			wget $url -O php.tar.gz
 		else
 			echo "" #rm -rf php.tar.gz
@@ -98,8 +104,14 @@ function setphpredis
 		cd $xiazaipath
 		if [ ! -f "phpredis.tgz" ]
 		then
-			echo "please input php url,example:http://pecl.php.net/get/redis-4.0.0.tgz"
+			echo -e "请输入phpredis下载地址,比如: \033[32m http://pecl.php.net/get/redis-4.0.0.tgz \033[0m； 不输入则使用示例地址"
 			read url
+
+			if [ -z $url ]
+		   	then
+		   		url='http://pecl.php.net/get/redis-4.0.0.tgz'
+		   	fi	
+
 			wget $url -O phpredis.tgz
 		else
 			echo "" #rm -rf phpredis.tgz
@@ -130,7 +142,14 @@ function setphpswoole
 		cd $xiazaipath
 		if [ ! -f "phpswoole.tar.gz" ]
 		then
-			echo "please input php url,example:https://github.com/swoole/swoole-src/archive/v1.10.2.tar.gz"
+			echo -e "请输入swoole下载地址,比如: \033[32m https://github.com/swoole/swoole-src/archive/v1.10.2.tar.gz \033[0m； 不输入则使用示例地址"
+
+			if [ -z $url ]
+		   	then
+		   		url='https://github.com/swoole/swoole-src/archive/v1.10.2.tar.gz'
+		   	fi	
+
+
 			read url
 			wget $url -O phpswoole.tar.gz
 		else
@@ -159,38 +178,26 @@ setuppath=/data/apps
 xiazaipath=/data/src
 yum -y install bison
 yum -y install libXpm-devel
-yum -y install lrzsz curl curl-devel ftp bind-utils nslookup tcpdump man traceroute telnet openssh* sos-2.2-38.el6 wget gc* make openssl openssl-devel pcre-devel zlib-devel zip unzip ncurses-devel ncurses zutoconf libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel libxml2 libxml2-devel zlib zlib-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel e2fsprogs e2fsprogs-devel krb5-devel libidn libidn-devel libxslt-devel libevent libevent-devel libtool-ltdl libtool ntp vim-enhanced python wget lsof iptraf strace dos2unix
-yum -y install libmcrypt libmcrypt-devel mcrypt mhash libcurl-devel
+yum -y install lrzsz curl curl-devel libcurl-devel ftp bind-utils nslookup tcpdump man traceroute telnet openssh* sos-2.2-38.el6 wget gc* make openssl openssl-devel pcre-devel zlib-devel zip unzip ncurses-devel ncurses zutoconf libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel libxml2 libxml2-devel zlib zlib-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel e2fsprogs e2fsprogs-devel krb5-devel libidn libidn-devel libxslt-devel libevent libevent-devel libtool-ltdl libtool ntp vim-enhanced python wget lsof iptraf strace dos2unix
+yum -y install libmcrypt libmcrypt-devel mcrypt mhash 
 phpsetup $setuppath $xiazaipath
 phpset $setuppath
-###
-:<<eof
-echo "are you install phpmemcache? input yes is setup,input any is nothing to do"
+
+echo "是否安装 phpredis? 输入 yes 安装"
 read isyes
 if [ -z "$isyes" ]
 then
-	echo "not set, keep old set"
-elif [ $isyes = "yes" ]
-then
-	setphpmemcache
-fi
-eof
-###
-echo "are you install setphpredis? input yes is setup,input any is nothing to do"
-read isyes
-if [ -z "$isyes" ]
-then
-	echo "not set, keep old set"
+	echo "不安装phpredis"
 elif [ $isyes = "yes" ]
 then
 	setphpredis
 fi
 
-echo "are you install setphpswoole? input yes is setup,input any is nothing to do"
+echo "是否安装 swoole? 输入 yes 安装"
 read isyes
 if [ -z "$isyes" ]
 then
-	echo "not set, keep old set"
+	echo "不安装 swoole"
 elif [ $isyes = "yes" ]
 then
 	setphpswoole
