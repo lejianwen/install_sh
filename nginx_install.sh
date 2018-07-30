@@ -372,7 +372,7 @@ echo '             expires 30h;' >> $setuppath/$nginxname/conf/nginx.conf
 echo '        }' >> $setuppath/$nginxname/conf/nginx.conf
 
 echo '   }' >> $setuppath/$nginxname/conf/nginx.conf
-echo '   include vhost/*.conf;'  >> $setuppath/$nginxname/conf/nginx.conf
+echo '   include vhosts/*.conf;'  >> $setuppath/$nginxname/conf/nginx.conf
 echo '}' >> $setuppath/$nginxname/conf/nginx.conf
 
 
