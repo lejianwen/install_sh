@@ -76,6 +76,8 @@ function phpsetup #setuppath #xiazaipath
 		sed -i 's/pm.max_spare_servers = 3/pm.max_spare_servers = 180/' $1/php/etc/php-fpm.d/www.conf
 		sed -i 's#;slowlog = log/$pool.log.slow#slowlog = /data/logs/php/$pool.log.slow#' $1/php/etc/php-fpm.d/www.conf
 		sed -i 's/;request_terminate_timeout = 0/request_terminate_timeout = 5s/' $1/php/etc/php-fpm.d/www.conf
+		sed -i 's/;request_slowlog_timeout = 0/request_slowlog_timeout = 3s/' $1/php/etc/php-fpm.d/www.conf
+		
 		cp -a ./sapi/fpm/php-fpm.service /usr/lib/systemd/system/php-fpm.service
 		systemctl enable php-fpm #开机运行服务
 
@@ -88,7 +90,7 @@ function phpset
 	#sed -i '378 i\    AddType application/x-httpd-php .php .phtml .php3 .inc' $1/apache/conf/httpd.conf
 	#sed -i '/ttt/ a input content' $1/apache/conf/httpd.conf
 	
-	sed -i 's/disable_functions =/disable_functions =passthru,exec,assert,system,chroot,chgrp,chown,shell_exec,proc_open,proc_get_status,ini_alter,ini_restore,dl,ini_restore,dl,openlog,syslog,readlink,symlink,popepassthru,stream_socket_server,fsocket,popen,pfsockopen,putenv,phpinfo/' $1/php/etc/php.ini
+	sed -i 's/disable_functions =/disable_functions =passthru,exec,assert,system,chroot,chgrp,chown,shell_exec,proc_open,proc_get_status,ini_alter,ini_restore,dl,ini_restore,dl,openlog,syslog,readlink,symlink,popepassthru,stream_socket_server,fsocket,popen,pfsockopen,phpinfo/' $1/php/etc/php.ini
 	sed -i 's/max_execution_time = 30/max_execution_time = 50/' $1/php/etc/php.ini
 	sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 300M/' $1/php/etc/php.ini
 	sed -i 's#;error_log = php_errors.log#error_log = /data/logs/php/php_errors.log#' $1/php/etc/php.ini
