@@ -50,6 +50,8 @@ cd /data
 mkDir 'apps'
 mkDir 'src'
 mkDir 'logs'
+cd /data/logs
+mkDir 'nginx'
 
 yum -y install gcc gcc-c++
 yum -y install automake autoconf libtool make wget

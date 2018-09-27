@@ -187,6 +187,8 @@ cd /data
 mkDir 'apps'
 mkDir 'src'
 mkDir 'logs'
+cd /data/logs
+mkDir 'php'
 
 setuppath=/data/apps
 xiazaipath=/data/src
