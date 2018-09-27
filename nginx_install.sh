@@ -45,22 +45,11 @@ function mkDir #dir
 }
 
 cd /
-if [ ! -d "data" ]
-then
-	mkdir data
-fi
-
+mkDir 'data'
 cd /data
-
-if [ ! -d "apps" ]
-then
-	mkdir apps
-fi
-
-if [ ! -d "src" ]
-then
-	mkdir src
-fi
+mkDir 'apps'
+mkDir 'src'
+mkDir 'logs'
 
 yum -y install gcc gcc-c++
 yum -y install automake autoconf libtool make wget
@@ -289,6 +278,23 @@ echo '        }' >> $setuppath/$nginxname/conf/php.conf
 
 
 
+touch $setuppath/$nginxname/conf/static.conf
+true > $setuppath/$nginxname/conf/static.conf
+echo '        location ~ .*\.(gif|jpg|jpeg|png|bmp|zip|exe|txt|ico|rar|htm|html)$' >> $setuppath/$nginxname/conf/static.conf
+echo '        {' >> $setuppath/$nginxname/conf/static.conf
+echo '             expires 30d;' >> $setuppath/$nginxname/conf/static.conf
+echo '        }' >> $setuppath/$nginxname/conf/static.conf
+
+echo '        location ~ .*\.(swf|mp3|wmv|wma|mp4|mpg|flv)$' >> $setuppath/$nginxname/conf/static.conf
+echo '        {' >> $setuppath/$nginxname/conf/static.conf
+echo '             expires 30d;' >> $setuppath/$nginxname/conf/static.conf
+echo '        }' >> $setuppath/$nginxname/conf/static.conf
+
+echo '        location ~ .*\.(js|css)?$' >> $setuppath/$nginxname/conf/static.conf
+echo '        {' >> $setuppath/$nginxname/conf/static.conf
+echo '             expires 30h;' >> $setuppath/$nginxname/conf/static.conf
+echo '        }' >> $setuppath/$nginxname/conf/static.conf
+
 touch $setuppath/$nginxname/conf/nginx.conf
 true > $setuppath/$nginxname/conf/nginx.conf
 echo 'user  www  www;' >> $setuppath/$nginxname/conf/nginx.conf
@@ -355,21 +361,7 @@ echo '        }' >> $setuppath/$nginxname/conf/nginx.conf
 
 echo '        include php.conf;' >> $setuppath/$nginxname/conf/nginx.conf
 
-
-echo '        location ~ .*\.(gif|jpg|jpeg|png|bmp|zip|exe|txt|ico|rar|htm|html)$' >> $setuppath/$nginxname/conf/nginx.conf
-echo '        {' >> $setuppath/$nginxname/conf/nginx.conf
-echo '             expires 30d;' >> $setuppath/$nginxname/conf/nginx.conf
-echo '        }' >> $setuppath/$nginxname/conf/nginx.conf
-
-echo '        location ~ .*\.(swf|mp3|wmv|wma|mp4|mpg|flv)$' >> $setuppath/$nginxname/conf/nginx.conf
-echo '        {' >> $setuppath/$nginxname/conf/nginx.conf
-echo '             expires 30d;' >> $setuppath/$nginxname/conf/nginx.conf
-echo '        }' >> $setuppath/$nginxname/conf/nginx.conf
-
-echo '        location ~ .*\.(js|css)?$' >> $setuppath/$nginxname/conf/nginx.conf
-echo '        {' >> $setuppath/$nginxname/conf/nginx.conf
-echo '             expires 30h;' >> $setuppath/$nginxname/conf/nginx.conf
-echo '        }' >> $setuppath/$nginxname/conf/nginx.conf
+echo '        include static.conf;' >> $setuppath/$nginxname/conf/nginx.conf
 
 echo '   }' >> $setuppath/$nginxname/conf/nginx.conf
 echo '   include vhosts/*.conf;'  >> $setuppath/$nginxname/conf/nginx.conf

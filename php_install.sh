@@ -74,9 +74,8 @@ function phpsetup #setuppath #xiazaipath
 		sed -i 's/pm.start_servers = 2/pm.start_servers = 100/' $1/php/etc/php-fpm.d/www.conf
 		sed -i 's/pm.min_spare_servers = 1/pm.min_spare_servers = 10/' $1/php/etc/php-fpm.d/www.conf
 		sed -i 's/pm.max_spare_servers = 3/pm.max_spare_servers = 180/' $1/php/etc/php-fpm.d/www.conf
-		sed -i 's#;slowlog = log/$pool.log.slow#slowlog = log/$pool.log.slow#' $1/php/etc/php-fpm.d/www.conf
+		sed -i 's#;slowlog = log/$pool.log.slow#slowlog = /data/logs/php/$pool.log.slow#' $1/php/etc/php-fpm.d/www.conf
 		sed -i 's/;request_terminate_timeout = 0/request_terminate_timeout = 5s/' $1/php/etc/php-fpm.d/www.conf
-		
 		cp -a ./sapi/fpm/php-fpm.service /usr/lib/systemd/system/php-fpm.service
 		systemctl enable php-fpm #开机运行服务
 
@@ -173,6 +172,22 @@ function setphpswoole
 		echo 'extension = "swoole.so"' >> $setuppath/php/etc/php.ini
 	fi
 }
+
+function mkDir #dir
+{
+	if [ ! -d $1 ]
+		then
+		mkdir $1 -p
+	fi
+}
+
+cd /
+mkDir 'data'
+cd /data
+mkDir 'apps'
+mkDir 'src'
+mkDir 'logs'
+
 setuppath=/data/apps
 xiazaipath=/data/src
 yum -y install bison 
