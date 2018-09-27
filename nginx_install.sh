@@ -312,7 +312,7 @@ echo '   include       mime.types;' >> $setuppath/$nginxname/conf/nginx.conf
 echo '   default_type  application/octet-stream;' >> $setuppath/$nginxname/conf/nginx.conf
 echo "   log_format  main  '\$remote_addr - \$remote_user [\$time_local] \"\$request\"'  " >> $setuppath/$nginxname/conf/nginx.conf
 echo "                     '\$status \$body_bytes_sent \"\$http_referer\" ' " >> $setuppath/$nginxname/conf/nginx.conf
-echo "                     '\"\$http_user_agent\" \"\$http_x_forwarded_for\"';" >> $setuppath/$nginxname/conf/nginx.conf
+echo "                     '\"\$http_user_agent\" \"\$http_x_forwarded_for\" $request_time $upstream_response_time ';" >> $setuppath/$nginxname/conf/nginx.conf
 echo '   sendfile        on;' >> $setuppath/$nginxname/conf/nginx.conf
 echo '   server_names_hash_bucket_size 128;' >> $setuppath/$nginxname/conf/nginx.conf
 echo '   client_header_buffer_size 32k;' >> $setuppath/$nginxname/conf/nginx.conf
