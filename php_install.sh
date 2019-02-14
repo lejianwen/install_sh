@@ -195,10 +195,12 @@ mkDir 'php'
 setuppath=/data/apps
 xiazaipath=/data/src
 yum -y install epel-release
-yum -y install curl curl-devel bison libXpm-devel gcc gcc++ make openssl openssl-devel pcre-devel zlib-devel ncurses-devel ncurses zutoconf libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel libxml2 libxml2-devel zlib zlib-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel krb5-devel libidn libidn-devel libxslt-devel libevent libevent-devel libtool-ltdl libtool
+yum -y install gcc gcc++ make openssl openssl-devel curl curl-devel libxml2 libxml2-devel libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel
+# maybe is not exists in env
+#yum -y install bison libXpm-devel pcre-devel zlib-devel ncurses-devel ncurses zutoconf zlib zlib-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel krb5-devel libidn libidn-devel libxslt-devel libevent libevent-devel libtool-ltdl libtool
 # maybe not must
-yum -y install lrzsz libcurl-devel nslookup tcpdump man traceroute telnet wget sos-2.2-38.el6 openssh* zip unzip e2fsprogs e2fsprogs-devel ntp vim-enhanced python lsof iptraf strace dos2unix bind-utils
-yum -y install libmcrypt libmcrypt-devel mcrypt mhash libzip
+#yum -y install lrzsz libcurl-devel nslookup tcpdump man traceroute telnet wget sos-2.2-38.el6 openssh* zip unzip e2fsprogs e2fsprogs-devel ntp vim-enhanced python lsof iptraf strace dos2unix bind-utils
+#yum -y install libmcrypt libmcrypt-devel mcrypt mhash libzip
 phpsetup $setuppath $xiazaipath
 phpset $setuppath
  
