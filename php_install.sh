@@ -195,7 +195,7 @@ mkDir 'php'
 setuppath=/data/apps
 xiazaipath=/data/src
 yum -y install epel-release
-yum -y install gcc gcc++ make openssl openssl-devel curl curl-devel libxml2 libxml2-devel libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel
+yum -y install gcc gcc++ make openssl openssl-devel curl curl-devel bison libxml2 libxml2-devel libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel
 # maybe is not exists in env
 #yum -y install bison libXpm-devel pcre-devel zlib-devel ncurses-devel ncurses zutoconf zlib zlib-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel krb5-devel libidn libidn-devel libxslt-devel libevent libevent-devel libtool-ltdl libtool
 # maybe not must
