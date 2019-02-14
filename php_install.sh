@@ -194,10 +194,8 @@ mkDir 'php'
 
 setuppath=/data/apps
 xiazaipath=/data/src
-yum -y install bison 
-yum -y install libXpm-devel
-yum -y install lrzsz curl curl-devel libcurl-devel ftp bind-utils nslookup tcpdump man traceroute telnet openssh* sos-2.2-38.el6 wget gc* make openssl openssl-devel pcre-devel zlib-devel zip unzip ncurses-devel ncurses zutoconf libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel libxml2 libxml2-devel zlib zlib-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel e2fsprogs e2fsprogs-devel krb5-devel libidn libidn-devel libxslt-devel libevent libevent-devel libtool-ltdl libtool ntp vim-enhanced python lsof iptraf strace dos2unix
-yum -y install libmcrypt libmcrypt-devel mcrypt mhash 
+yum -y install bison libXpm-devel lrzsz curl curl-devel libcurl-devel ftp bind-utils nslookup tcpdump man traceroute telnet openssh* sos-2.2-38.el6 wget gc* make openssl openssl-devel pcre-devel zlib-devel zip unzip ncurses-devel ncurses zutoconf libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel libxml2 libxml2-devel zlib zlib-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel e2fsprogs e2fsprogs-devel krb5-devel libidn libidn-devel libxslt-devel libevent libevent-devel libtool-ltdl libtool ntp vim-enhanced python lsof iptraf strace dos2unix
+yum -y install libmcrypt libmcrypt-devel mcrypt mhash libzip
 phpsetup $setuppath $xiazaipath
 phpset $setuppath
  
