@@ -15,12 +15,12 @@ function phpsetup #setuppath #xiazaipath
 		cd $2
 		if [ ! -f "php.tar.gz" ]
 		then
-			echo -e "请输入php下载地址,比如: \033[32m  http://cn2.php.net/distributions/php-7.0.28.tar.gz \033[0m； 不输入则使用示例地址"
+			echo -e "请输入php下载地址,比如: \033[32m  http://cn2.php.net/distributions/php-7.3.2.tar.gz \033[0m； 不输入则使用示例地址"
 			read url
 
 			if [ -z $url ]
 		   	then
-		   		url='http://cn2.php.net/distributions/php-7.0.28.tar.gz'
+		   		url='http://cn2.php.net/distributions/php-7.3.2.tar.gz'
 		   	fi	
 
 			wget $url -O php.tar.gz
@@ -77,10 +77,9 @@ function phpsetup #setuppath #xiazaipath
 		sed -i 's#;slowlog = log/$pool.log.slow#slowlog = /data/logs/php/$pool.log.slow#' $1/php/etc/php-fpm.d/www.conf
 		sed -i 's/;request_terminate_timeout = 0/request_terminate_timeout = 5s/' $1/php/etc/php-fpm.d/www.conf
 		sed -i 's/;request_slowlog_timeout = 0/request_slowlog_timeout = 3s/' $1/php/etc/php-fpm.d/www.conf
-		sed -i 's/;request_slowlog_timeout = 0/request_slowlog_timeout = 3s/' $1/php/etc/php-fpm.d/www.conf
+		
 		cp -a ./sapi/fpm/php-fpm.service /usr/lib/systemd/system/php-fpm.service
-		# 开机运行服务
-		#systemctl enable php-fpm
+		systemctl enable php-fpm #开机运行服务
 
 	fi
 }
@@ -91,12 +90,22 @@ function phpset
 	#sed -i '378 i\    AddType application/x-httpd-php .php .phtml .php3 .inc' $1/apache/conf/httpd.conf
 	#sed -i '/ttt/ a input content' $1/apache/conf/httpd.conf
 	
-	#sed -i 's/disable_functions =/disable_functions =passthru,exec,assert,system,chroot,chgrp,chown,shell_exec,proc_open,proc_get_status,ini_alter,ini_restore,dl,ini_restore,dl,openlog,syslog,readlink,symlink,popepassthru,stream_socket_server,fsocket,popen,pfsockopen,phpinfo/' $1/php/etc/php.ini
+	sed -i 's/disable_functions =/disable_functions =passthru,exec,assert,system,chroot,chgrp,chown,shell_exec,proc_open,proc_get_status,ini_alter,ini_restore,dl,ini_restore,dl,openlog,syslog,readlink,symlink,popepassthru,stream_socket_server,fsocket,popen,pfsockopen,phpinfo/' $1/php/etc/php.ini
 	sed -i 's/max_execution_time = 30/max_execution_time = 50/' $1/php/etc/php.ini
 	sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 300M/' $1/php/etc/php.ini
 	sed -i 's#;error_log = php_errors.log#error_log = /data/logs/php/php_errors.log#' $1/php/etc/php.ini
 	sed -i 's/expose_php = On/expose_php = off/' $1/php/etc/php.ini
 	
+}
+
+# 安装libzip 1.5
+function setlibzip{
+    url = 'https://libzip.org/download/libzip-1.5.1.tar.gz'
+    
+}
+# 安装cmake 3.5
+function setcmake{
+  url = 'https://cmake.org/files/v3.5/cmake-3.5.2.tar.gz'
 }
 function setphpredis
 {
@@ -127,7 +136,7 @@ function setphpredis
 		$setuppath/php/bin/phpize
 		./configure --with-php-config=$setuppath/php/bin/php-config
 		make && make install
-		isyou1=`cat $setuppath/php/etc/php.ini|grep "no-debug-non-zts-20151012"|wc -l`
+		isyou1=`cat $setuppath/php/etc/php.ini|grep "no-debug-zts-20151012"|wc -l`
 		if [ $isyou1 -eq 0 ]
 		then
 			echo "extension_dir=\"$setuppath/php/lib/php/extensions/no-debug-non-zts-20151012/\"" >> $setuppath/php/etc/php.ini
@@ -167,7 +176,7 @@ function setphpswoole
 		./configure --with-php-config=$setuppath/php/bin/php-config \
 		--enable-openssl
 		make && make install
-		isyou1=`cat $setuppath/php/etc/php.ini|grep "no-debug-non-zts-20151012"|wc -l`
+		isyou1=`cat $setuppath/php/etc/php.ini|grep "no-debug-zts-20151012"|wc -l`
 		if [ $isyou1 -eq 0 ]
 		then
 			echo "extension_dir=\"$setuppath/php/lib/php/extensions/no-debug-non-zts-20151012/\"" >> $setuppath/php/etc/php.ini
@@ -196,16 +205,15 @@ mkDir 'php'
 setuppath=/data/apps
 xiazaipath=/data/src
 yum -y install epel-release
-yum -y install autoconf bison gcc gcc++ make openssl openssl-devel curl curl-devel bison libxml2 libxml2-devel libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel
-yum -y install wget
-# 可能缺失项
+yum -y install gcc gcc++ make openssl openssl-devel curl curl-devel bison libxml2 libxml2-devel libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel
+# maybe is not exists in env
 #yum -y install bison libXpm-devel pcre-devel zlib-devel ncurses-devel ncurses zutoconf zlib zlib-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel krb5-devel libidn libidn-devel libxslt-devel libevent libevent-devel libtool-ltdl libtool
-# 非必须项
+# maybe not must
 #yum -y install lrzsz libcurl-devel nslookup tcpdump man traceroute telnet wget sos-2.2-38.el6 openssh* zip unzip e2fsprogs e2fsprogs-devel ntp vim-enhanced python lsof iptraf strace dos2unix bind-utils
 #yum -y install libmcrypt libmcrypt-devel mcrypt mhash libzip
 phpsetup $setuppath $xiazaipath
 phpset $setuppath
-
+ 
 echo "是否安装 phpredis? 输入 yes 安装"
 read isyes
 if [ -z "$isyes" ]

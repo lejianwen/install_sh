@@ -1,0 +1,13 @@
+version: '3'
+services:
+  php70-fpm:
+    image: php70-fpm:1.0
+    ports:
+      - '9000:9000'
+    volumes:
+      - '/data1/htdocs:/data1/htdocs'
+      - '/data/apps/php/etc:/data/apps/php/etc'
+      - '/data/logs/php:/data/logs/php'
+    container_name: 'php70-fpm'
+
+
