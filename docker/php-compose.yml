@@ -1,13 +1,14 @@
 version: '3'
 services:
   php70-fpm:
-    image: php70-fpm:1.0
+    build:
+      context: ./php70
     ports:
       - '9000:9000'
     volumes:
-      - '/data1/htdocs:/data1/htdocs'
+      - '/data/htdocs:/data/htdocs'
       - '/data/apps/php/etc:/data/apps/php/etc'
       - '/data/logs/php:/data/logs/php'
-    container_name: 'php70-fpm'
+    container_name: 'php7028-fpm'
 
 
