@@ -1,5 +1,5 @@
 FROM centos
-MAINTAINER 84855512@qq.com
+MAINTAINER lejianwen <84855512@qq.com>
 RUN yum -y install epel-release autoconf bison gcc gcc++ make openssl openssl-devel curl curl-devel libxml2 libxml2-devel libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel wget
 ENV setuppath /data/apps/php
 RUN useradd www -s /sbin/nologin \

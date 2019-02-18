@@ -1,0 +1,11 @@
+version: '3'
+services:
+  mariadb:
+    #    image: lejianwen/php:70fpm
+    build:
+      context: ./mariadb
+    ports:
+      - '3307:3306'
+    volumes:
+      - '/data/mysql_data:/data/mysql_data'
+      - '/data/etc/mysql/my.cnf:/etc/my.cnf'

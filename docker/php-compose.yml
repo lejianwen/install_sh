@@ -2,14 +2,13 @@ version: '3'
 services:
   php70-fpm:
     image: lejianwen/php:70fpm
-#    build:
-#      context: ./php70
+    #    build:
+    #      context: ./php70
     ports:
       - '9000:9000'
     volumes:
       - '/data/htdocs:/data/htdocs'
-      - '/data/apps/php/etc:/data/apps/php/etc'
+      - '/data/etc/php:/data/apps/php/etc'
       - '/data/logs/php:/data/logs/php'
-    container_name: 'php7028-fpm'
 
 
