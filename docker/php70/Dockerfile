@@ -48,8 +48,5 @@ RUN useradd www -s /sbin/nologin \
   && echo "extension_dir=\"$setuppath/lib/php/extensions/no-debug-non-zts-20151012/\"" >> $setuppath/etc/php.ini \
   && echo 'extension = "redis.so"' >> $setuppath/etc/php.ini \
   && make clean && rm /data/src -rf
-
-RUN yum -y remove curl-devel autoconf make wget && yum clean all
-
 EXPOSE 9000
 CMD ["/data/apps/php/sbin/php-fpm", "--nodaemonize", "--fpm-config", "/data/apps/php/etc/php-fpm.conf"]

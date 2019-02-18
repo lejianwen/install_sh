@@ -2,13 +2,17 @@ version: '3'
 services:
   miniphp70-fpm:
     image: lejianwen/php:70fpm-mini
-#    build:
-#      context: ./miniphp70
+    #    build:
+    #      context: ./miniphp70
     ports:
       - '9000:9000'
     volumes:
       - '/data/htdocs:/data/htdocs'
       - '/data/apps/php/etc:/data/apps/php/etc'
       - '/data/logs/php:/data/logs/php'
+    networks:
+      - nmp
 
-
+networks:
+  nmp:
+    driver: bridge

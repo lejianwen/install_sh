@@ -3,4 +3,3 @@ MAINTAINER lejianwen <84855512@qq.com>
 ADD rootfs.tar /
 EXPOSE 9000
 CMD ["/data/apps/php/sbin/php-fpm", "--nodaemonize", "--fpm-config", "/data/apps/php/etc/php-fpm.conf"]
-
