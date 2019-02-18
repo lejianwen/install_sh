@@ -1,8 +1,10 @@
 FROM centos
 MAINTAINER lejianwen <84855512@qq.com>
-RUN yum -y install epel-release openssl openssl-devel git gcc gcc-c++ bison libxml2-devel libevent-devel rpm-build cmake ncurses-devel bison bison-devel \
+#RUN curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+RUN yum -y install epel-release openssl openssl-devel git gcc gcc++ gcc-c++ bison libxml2-devel libevent-devel cmake ncurses-devel bison \
     && useradd mysql -s /sbin/nologin
 RUN mkdir /data/src -p && cd /data/src \
+    && curl -L http://mirrors.neusoft.edu.cn/mariadb//mariadb-10.3.12/source/mariadb-10.3.12.tar.gz -o mariadb.tar.gz \
     && mkdir mariadb && tar -zxf mariadb.tar.gz -C ./mariadb --strip-components 1 \
     && cd mariadb \
     && cmake \
