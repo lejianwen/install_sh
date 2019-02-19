@@ -56,5 +56,7 @@ make install
 
 chown -R mysql.mysql /data/apps/mysql
 cp /data/apps/mysql/support-files/mysql.server /usr/sbin/mysqld
-
 /data/apps/mysql/scripts/mysql_install_db --basedir=/data/apps/mysql --datadir=/data/mysql_data --user=mysql
+mysqld start
+# 添加用户
+# /data/apps/mysql/bin/mysql -e  "grant all on *.* to root@'%' identified by '123456'; flush privileges";

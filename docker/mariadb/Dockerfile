@@ -1,10 +1,12 @@
 FROM centos
 MAINTAINER lejianwen <84855512@qq.com>
-#RUN curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+# 阿里云源
+# RUN curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
 RUN yum -y install epel-release openssl openssl-devel git gcc gcc++ gcc-c++ bison libxml2-devel libevent-devel cmake ncurses-devel bison \
     && useradd mysql -s /sbin/nologin
+VOLUME /data/mysql_data
 RUN mkdir /data/src -p && cd /data/src \
-    && curl -L http://mirrors.neusoft.edu.cn/mariadb//mariadb-10.3.12/source/mariadb-10.3.12.tar.gz -o mariadb.tar.gz \
+    && curl -L http://10.2.30.174/mariadb-10.3.12.tar.gz -o mariadb.tar.gz \
     && mkdir mariadb && tar -zxf mariadb.tar.gz -C ./mariadb --strip-components 1 \
     && cd mariadb \
     && cmake \
@@ -25,8 +27,11 @@ RUN mkdir /data/src -p && cd /data/src \
        -DDEFAULT_CHARSET=utf8 \
        -DENABLE_PROFILING=0 \
        -DMYSQL_USER=mysql \
-       -DDEFAULT_COLLATION=utf8_general_ci && make -j2 && make install \
+       -DDEFAULT_COLLATION=utf8_general_ci && make -j4 && make install \
        && chown -R mysql.mysql /data/apps/mysql && cp /data/apps/mysql/support-files/mysql.server /usr/sbin/mysqld \
-       && /data/apps/mysql/scripts/mysql_install_db --basedir=/data/apps/mysql --datadir=/data/mysql_data --user=mysql
+       && /data/apps/mysql/scripts/mysql_install_db --basedir=/data/apps/mysql --datadir=/data/mysql_data --user=mysql \
+       && rm /data/src -rf
 EXPOSE 3306
-CMD ["mysqld", "start"]
+COPY mariadb_init.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/mariadb_init.sh
+CMD ["mariadb_init.sh"]

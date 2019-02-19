@@ -3,7 +3,7 @@ MAINTAINER lejianwen <84855512@qq.com>
 RUN yum -y install epel-release autoconf bison gcc gcc++ make openssl openssl-devel curl curl-devel libxml2 libxml2-devel libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel wget
 ENV setuppath /data/apps/php
 RUN useradd www -s /sbin/nologin \
-  && mkdir /data/src -p && cd /data/src && wget http://192.168.1.77/php-7.0.28.tar.gz \
+  && mkdir /data/src -p && cd /data/src && wget http://cn2.php.net/distributions/php-7.0.28.tar.gz \
   && tar -zxvf php-7.0.28.tar.gz \
   && cd php-7.0.28 \
   && ./configure --prefix=$setuppath \
