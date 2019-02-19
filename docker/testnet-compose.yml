@@ -6,31 +6,35 @@ services:
     #      context: ./miniphp70
     ports:
       - '9000:9000'
-    depends_on:
-      - php70-fpm
     volumes:
       - '/data/htdocs:/data/htdocs'
-      - '/data/apps/php/etc:/data/apps/php/etc'
+      - '/data/etc/php:/data/apps/php/etc'
       - '/data/logs/php:/data/logs/php'
+    depends_on:
+      - mariadb
     networks:
       - nmp
-  php70-fpm:
-    image: lejianwen/php:70fpm
-    #    build:
-    #      context: ./php70
+  #  php70-fpm:
+  #    image: lejianwen/php:70fpm
+  #    #    build:
+  #    #      context: ./miniphp70
+  #    ports:
+  #      - '9001:9000'
+  #    volumes:
+  #      - '/data/htdocs:/data/htdocs'
+  #      - '/data/etc/php:/data/apps/php/etc'
+  #      - '/data/logs/php:/data/logs/php'
+  #    depends_on:
+  #      - mariadb
+  #    networks:
+  #      - nmp
+  mariadb:
+    image: lejianwen/mariadb:1.0
     ports:
-      - '9001:9000'
+      - '3307:3306'
     volumes:
-      - '/data/htdocs:/data/htdocs'
-      - '/data/apps/php/etc:/data/apps/php/etc'
-      - '/data/logs/php:/data/logs/php'
-    networks:
-      - nmp
-  centos:
-    image: centos
-    command: ping miniphp70-fpm
-    depends_on:
-      - php70-fpm
+      - '/data/mysql_data:/data/mysql_data'
+      - '/data/etc/mysql/my.cnf:/etc/my.cnf'
     networks:
       - nmp
 networks:

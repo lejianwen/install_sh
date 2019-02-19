@@ -1,4 +1,19 @@
-FROM lejianwen/php:70fpm-mini
+FROM lejianwen/php:70fpm
 MAINTAINER lejianwen <84855512@qq.com>
+RUN mkdir /rootfs && cd /rootfs && mkdir -p bin etc lib proc sys tmp dev/pts usr/lib64 usr/bin usr/local/bin \
+    && chmod 777 ./tmp -R && touch etc/resolv.conf && cp /etc/nsswitch.conf etc/nsswitch.conf  \
+    && echo root:x:0:0:root:/:/bin/sh > etc/passwd \
+    && echo root:x:0: > etc/group \
+    && echo www:x:1001:1001:root:/:/bin/sh >> etc/passwd \
+    && echo www:x:1001: >> etc/group \
+    && ln -s lib lib64 && ln -s bin sbin
+RUN curl -L https://busybox.net/downloads/binaries/1.21.1/busybox-x86_64 -o /sbin/busybox \
+    && chmod +x /sbin/busybox && cp /sbin/busybox bin && busybox --install -s bin
+RUN bash -c "cp -fa /lib64/*.so* lib64/" \
+    && cp -a /etc/pki etc/
+RUN tar cf /rootfs.tar .
+FROM scratch
+MAINTAINER lejianwen <84855512@qq.com>
+ADD rootfs.tar /
 EXPOSE 9000
 CMD ["/data/apps/php/sbin/php-fpm", "--nodaemonize", "--fpm-config", "/data/apps/php/etc/php-fpm.conf"]
