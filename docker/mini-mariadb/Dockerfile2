@@ -1,0 +1,23 @@
+FROM lejianwen/mariadb:1.0.2 as mariadb-builder
+MAINTAINER lejianwen <84855512@qq.com>
+WORKDIR /rootfs
+RUN mkdir -p bin etc lib proc sys tmp dev/pts usr/lib64 usr/bin usr/local/bin usr/sbin \
+    && chmod 777 ./tmp -R && touch etc/resolv.conf && cp /etc/nsswitch.conf etc/nsswitch.conf  \
+    && echo root:x:0:0:root:/:/bin/sh > etc/passwd \
+    && echo root:x:0: > etc/group \
+    && echo mysql:x:1001:1001:mysql:/:/bin/sh >> etc/passwd \
+    && echo mysql:x:1001: >> etc/group \
+    && ln -s lib lib64 && ln -s bin sbin
+RUN curl -L https://busybox.net/downloads/binaries/1.21.1/busybox-x86_64 -o /sbin/busybox \
+    && chmod +x /sbin/busybox && cp /sbin/busybox bin && busybox --install -s bin && cp ./bin/busybox ./usr/sbin/busybox
+RUN cp  /lib64/*.so* lib64/ && rm lib64/*.so.*.* \
+    && rm /data/apps/mysql/mysql-test -rf && cp -a /data ./ && cp /usr/sbin/mysqld ./usr/sbin/mysqld
+
+FROM scratch
+MAINTAINER lejianwen <84855512@qq.com>
+COPY --from=mariadb-builder /rootfs /
+EXPOSE 3306
+ENV MYSQL_ROOT_PASSWORD 123456
+COPY mariadb_init.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/mariadb_init.sh
+CMD ["mariadb_init.sh"]
