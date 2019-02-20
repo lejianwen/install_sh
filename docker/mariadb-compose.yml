@@ -1,7 +1,7 @@
 version: '3'
 services:
   mariadb:
-    image: lejianwen/mariadb:1.0
+    image: lejianwen/mariadb:1.0.2
     #    build:
     #      context: ./mariadb
     ports:
