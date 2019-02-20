@@ -32,6 +32,8 @@ RUN mkdir /data/src -p && cd /data/src \
        && /data/apps/mysql/scripts/mysql_install_db --basedir=/data/apps/mysql --datadir=/data/mysql_data --user=mysql \
        && rm /data/src -rf
 EXPOSE 3306
+ENV MYSQL_ROOT_PASSWORD 123456
 COPY mariadb_init.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/mariadb_init.sh
+
 CMD ["mariadb_init.sh"]

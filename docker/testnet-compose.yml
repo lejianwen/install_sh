@@ -29,12 +29,14 @@ services:
   #    networks:
   #      - nmp
   mariadb:
-    image: lejianwen/mariadb:1.0
+    image: lejianwen/mariadb:1.0.2
     ports:
       - '3307:3306'
     volumes:
       - '/data/mysql_data:/data/mysql_data'
       - '/data/etc/mysql/my.cnf:/etc/my.cnf'
+    environment:
+      - MYSQL_ROOT_PASSWORD=111111
     networks:
       - nmp
 networks:

@@ -8,7 +8,7 @@ then
   /data/apps/mysql/scripts/mysql_install_db --basedir=/data/apps/mysql --datadir=/data/mysql_data --user=mysql
   mysqld start
   # 添加用户
-  /data/apps/mysql/bin/mysql -e  "grant all on *.* to root@'%' identified by '123456'; flush privileges";
+  /data/apps/mysql/bin/mysql -e  "grant all on *.* to root@'%' identified by '${MYSQL_ROOT_PASSWORD}'; flush privileges";
   mysqld stop
 fi
 /data/apps/mysql/bin/mysqld_safe --datadir=/data/mysql_data

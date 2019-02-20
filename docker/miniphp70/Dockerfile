@@ -10,10 +10,12 @@ RUN mkdir -p bin etc lib proc sys tmp dev/pts usr/lib64 usr/bin usr/local/bin \
     && ln -s lib lib64 && ln -s bin sbin
 RUN curl -L https://busybox.net/downloads/binaries/1.21.1/busybox-x86_64 -o /sbin/busybox \
     && chmod +x /sbin/busybox && cp /sbin/busybox bin && busybox --install -s bin
-RUN cp  /lib64/*.so* lib64/ \
+RUN cp  /lib64/*.so* lib64/ && rm lib64/*.so.*.*\
     && cp -a /etc/pki etc/ \
-    && cp -a /data ./
-RUN tar -cf /rootfs.tar .
+    && cp -a /data ./ \
+    && sed -i 's/user = nobody/user = www/' data/apps/php/etc/php-fpm.d/www.conf \
+    && sed -i 's/group = nobody/group = www/' data/apps/php/etc/php-fpm.d/www.conf
+# RUN tar -cf /rootfs.tar .
 FROM scratch
 MAINTAINER lejianwen <84855512@qq.com>
 COPY --from=php70-fpm /rootfs /
