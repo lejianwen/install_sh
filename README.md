@@ -42,6 +42,7 @@ data
 │       └── redis.conf
 ├── htdocs                              网站项目目录
 ├── logs                                日志目录
+│   ├── redis
 │   ├── nginx
 │   └── php
 │       └── www.log.slow
