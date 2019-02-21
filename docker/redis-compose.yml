@@ -1,0 +1,13 @@
+version: '3'
+services:
+  redis:
+    image: redis:0.1
+    #    build:
+    #      context: ./redis
+    command: redis-server /data/etc/redis/redis.conf
+    ports:
+      - '6379:6379'
+    volumes:
+      - '/data/etc/redis/redis.conf:/data/etc/redis/redis.conf'
+      - '/data/logs/redis:/data/logs/redis'
+      - '/data/redis_data:/data/redis_data'
