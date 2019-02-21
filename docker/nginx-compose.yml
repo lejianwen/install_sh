@@ -1,7 +1,8 @@
 version: '3'
 services:
   nginx:
-    image: nginx:0.1
+    image: lejianwen/nginx:1.0
+    # image: lejianwen/nginx:mini-1.0
     #    build:
     #      context: ./mariadb
     ports:

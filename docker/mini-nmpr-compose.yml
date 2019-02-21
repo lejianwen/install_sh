@@ -12,8 +12,9 @@ services:
       - '/data/logs/php:/data/logs/php'
     depends_on:
       - mariadb
+      - redis
     networks:
-      - nmp
+      - nmpr
   mariadb:
     image: lejianwen/mariadb:mini-1.1
     ports:
@@ -24,7 +25,7 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=111111
     networks:
-      - nmp
+      - nmpr
   nginx:
     image: lejianwen/nginx:mini-1.0
     #    build:
@@ -38,7 +39,20 @@ services:
     depends_on:
       - php-fpm
     networks:
-      - nmp
+      - nmpr
+  redis:
+    image: mini-redis:0.1
+    #    build:
+    #      context: ./redis
+    command: redis-server /data/etc/redis/redis.conf
+    ports:
+      - '6379:6379'
+    volumes:
+      - '/data/etc/redis/redis.conf:/data/etc/redis/redis.conf'
+      - '/data/logs/redis:/data/logs/redis'
+      - '/data/redis_data:/data/redis_data'
+    networks:
+      - nmpr
 networks:
-  nmp:
+  nmpr:
     driver: bridge
