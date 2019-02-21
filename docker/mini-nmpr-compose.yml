@@ -41,7 +41,7 @@ services:
     networks:
       - nmpr
   redis:
-    image: mini-redis:0.1
+    image: lejianwen/redis:mini-1.0
     #    build:
     #      context: ./redis
     command: redis-server /data/etc/redis/redis.conf
