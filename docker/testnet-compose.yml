@@ -1,6 +1,6 @@
 version: '3'
 services:
-  miniphp70-fpm:
+  php-fpm:
     image: lejianwen/php:70fpm-mini
     #    build:
     #      context: ./miniphp70
@@ -37,6 +37,20 @@ services:
       - '/data/etc/mysql/my.cnf:/etc/my.cnf'
     environment:
       - MYSQL_ROOT_PASSWORD=111111
+    networks:
+      - nmp
+  nginx:
+    image: nginx:0.1
+    #    build:
+    #      context: ./nginx
+    ports:
+      - '80:80'
+    volumes:
+      - '/data/htdocs:/data/htdocs'
+      - '/data/etc/nginx:/data/apps/nginx/conf'
+      - '/data/logs/nginx:/data/logs/nginx'
+    depends_on:
+      - php-fpm
     networks:
       - nmp
 networks:
