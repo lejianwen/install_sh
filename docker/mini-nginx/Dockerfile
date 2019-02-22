@@ -32,6 +32,7 @@ RUN cp  /lib64/*.so* lib64/ && rm lib64/*.so.*.* \
 #    && cp /lib64/libuser.so.1 ./lib64 \
 #    && cp /lib64/libaudit.so.1 ./lib64 \
 #    && cp /lib64/libsemanage.so.1 ./lib64 \
+    && rm /data/src -rf \
     && cp -a /etc/pki etc/ \
     && cp -a /data ./
 

@@ -13,5 +13,5 @@ RUN yum -y install epel-release gcc gcc-c++ automake autoconf libtool make zlib 
        --with-http_gzip_static_module \
        --with-http_realip_module \
        --with-http_v2_module \
-    && make -j4  && make install
+    && make -j4  && make install && cd / && rm /data/src -rf
 CMD ["/data/apps/nginx/sbin/nginx"]
