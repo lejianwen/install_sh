@@ -16,7 +16,7 @@ services:
     networks:
       - nmpr
   mariadb:
-    image: lejianwen/mariadb:mini-1.1
+    image: lejianwen/mariadb:mini-1.2
     ports:
       - '3307:3306'
     volumes:

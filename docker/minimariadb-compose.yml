@@ -1,0 +1,11 @@
+version: '3'
+services:
+  mini-mariadb:
+    image: lejianwen/mariadb:mini-1.2
+    #    build:
+    #      context: ./mariadb
+    ports:
+      - '3307:3306'
+    volumes:
+      - '/data/mysql_data:/data/mysql_data'
+      - '/data/etc/mysql/my.cnf:/etc/my.cnf'
