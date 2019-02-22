@@ -10,28 +10,28 @@ RUN mkdir -p bin etc lib proc sys tmp dev/pts usr/lib64 usr/bin usr/local/bin us
     && ln -s lib lib64 && ln -s bin sbin \
     && curl -L https://busybox.net/downloads/binaries/1.21.1/busybox-x86_64 -o /sbin/busybox \
     && chmod +x /sbin/busybox && cp /sbin/busybox bin && busybox --install -s bin && cp ./bin/busybox ./usr/sbin/busybox
-RUN cp  /lib64/*.so* lib64/ && rm lib64/*.so.*.* \
-#RUN cp /lib64/libdl.so.2 ./lib64 \
-#    && cp /lib64/libpthread.so.0 ./lib64 \
-#    && cp /lib64/libcrypt.so.1 ./lib64 \
-#    && cp /lib64/libpcre.so.1 ./lib64 \
-#    && cp /lib64/libssl.so.10 ./lib64 \
-#    && cp /lib64/libcrypto.so.10 ./lib64 \
-#    && cp /lib64/libz.so.1 ./lib64 \
-#    && cp /lib64/libc.so.6 ./lib64 \
-#    && cp /lib64/ld-linux-x86-64.so.2 ./lib64 \
-#    && cp /lib64/libfreebl3.so ./lib64 \
-#    && cp /lib64/libgssapi_krb5.so.2 ./lib64 \
-#    && cp /lib64/libkrb5.so.3 ./lib64 \
-#    && cp /lib64/libcom_err.so.2 ./lib64 \
-#    && cp /lib64/libk5crypto.so.3 ./lib64 \
-#    && cp /lib64/libkrb5support.so.0 ./lib64 \
-#    && cp /lib64/libkeyutils.so.1 ./lib64 \
-#    && cp /lib64/libresolv.so.2 ./lib64 \
-#    && cp /lib64/libselinux.so.1 ./lib64 \
-#    && cp /lib64/libuser.so.1 ./lib64 \
-#    && cp /lib64/libaudit.so.1 ./lib64 \
-#    && cp /lib64/libsemanage.so.1 ./lib64 \
+#RUN cp  /lib64/*.so* lib64/ && rm lib64/*.so.*.* \
+RUN cp /lib64/libdl.so.2 ./lib64 \
+    && cp /lib64/libpthread.so.0 ./lib64 \
+    && cp /lib64/libcrypt.so.1 ./lib64 \
+    && cp /lib64/libpcre.so.1 ./lib64 \
+    && cp /lib64/libssl.so.10 ./lib64 \
+    && cp /lib64/libcrypto.so.10 ./lib64 \
+    && cp /lib64/libz.so.1 ./lib64 \
+    && cp /lib64/libc.so.6 ./lib64 \
+    && cp /lib64/ld-linux-x86-64.so.2 ./lib64 \
+    && cp /lib64/libfreebl3.so ./lib64 \
+    && cp /lib64/libgssapi_krb5.so.2 ./lib64 \
+    && cp /lib64/libkrb5.so.3 ./lib64 \
+    && cp /lib64/libcom_err.so.2 ./lib64 \
+    && cp /lib64/libk5crypto.so.3 ./lib64 \
+    && cp /lib64/libkrb5support.so.0 ./lib64 \
+    && cp /lib64/libkeyutils.so.1 ./lib64 \
+    && cp /lib64/libresolv.so.2 ./lib64 \
+    && cp /lib64/libselinux.so.1 ./lib64 \
+    && cp /lib64/libnss_files.so.2 ./lib64 \
+    && cp /lib64/libnss_dns.so.2 ./lib64 \
+    && cp /lib64/libnss_myhostname.so.2 ./lib64 \
     && rm /data/src -rf \
     && cp -a /etc/pki etc/ \
     && cp -a /data ./
