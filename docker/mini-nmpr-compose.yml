@@ -7,9 +7,9 @@ services:
     ports:
       - '9000:9000'
     volumes:
-      - '/data/htdocs:/data/htdocs'
-      - '/data/etc/php:/data/apps/php/etc'
-      - '/data/logs/php:/data/logs/php'
+      - ${WEB_DATA_DIR}:/data/htdocs
+      - ${PHP_CONF_DIR}:/data/apps/php/etc
+      - ${PHP_LOG_DIR}:/data/logs/php
     depends_on:
       - mariadb
       - redis
@@ -20,10 +20,10 @@ services:
     ports:
       - '3307:3306'
     volumes:
-      - '/data/mysql_data:/data/mysql_data'
-      - '/data/etc/mysql/my.cnf:/etc/my.cnf'
+      - ${MYSQL_DATA_DIR}:/data/mysql_data
+      - ${MYSQL_CONF_DIR}/my.cnf:/etc/my.cnf
     environment:
-      - MYSQL_ROOT_PASSWORD=111111
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     networks:
       - nmpr
   nginx:
@@ -33,9 +33,9 @@ services:
     ports:
       - '80:80'
     volumes:
-      - '/data/htdocs:/data/htdocs'
-      - '/data/etc/nginx:/data/apps/nginx/conf'
-      - '/data/logs/nginx:/data/logs/nginx'
+      - ${WEB_DATA_DIR}:/data/htdocs
+      - ${NGINX_CONF_DIR}:/data/apps/nginx/conf
+      - ${NGINX_LOG_DIR}:/data/logs/nginx
     depends_on:
       - php-fpm
     networks:
@@ -48,9 +48,9 @@ services:
     ports:
       - '6379:6379'
     volumes:
-      - '/data/etc/redis/redis.conf:/data/etc/redis/redis.conf'
-      - '/data/logs/redis:/data/logs/redis'
-      - '/data/redis_data:/data/redis_data'
+      - ${REDIS_CONF_DIR}:/data/etc/redis
+      - ${REDIS_LOG_DIR}:/data/logs/redis
+      - ${REDIS_DATA_DIR}:/data/redis_data
     networks:
       - nmpr
 networks:
