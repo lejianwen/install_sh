@@ -1,7 +1,7 @@
 version: '3'
 services:
   nginx:
-    image: mini-nginx-lua:1.0
+    image: lejianwen/nginx:mini-lua-1.1
     # image: lejianwen/nginx:mini-1.0
     #    build:
     #      context: ./mariadb
