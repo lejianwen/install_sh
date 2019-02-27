@@ -27,11 +27,12 @@ services:
     networks:
       - nmpr
   nginx:
-    image: lejianwen/nginx:mini-1.3
+    image: lejianwen/nginx:mini-lua-1.1
     #    build:
     #      context: ./nginx
     ports:
       - '80:80'
+      - '443:443'
     volumes:
       - ${WEB_DATA_DIR}:/data/htdocs
       - ${NGINX_CONF_DIR}:/data/apps/nginx/conf
