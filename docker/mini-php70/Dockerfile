@@ -61,6 +61,7 @@ RUN	cp /lib64/libcrypt.so.1 ./lib64 \
     && cp -a /etc/pki etc/ \
     && ln -s /etc/pki /etc/ssl/certs \
     && strip /data/apps/php/bin/php-cgi \
+    && strip /data/apps/php/sbin/php-fpm \
     && cp -a /data ./ \
     && sed -i 's/user = nobody/user = www/' data/apps/php/etc/php-fpm.d/www.conf \
     && sed -i 's/group = nobody/group = www/' data/apps/php/etc/php-fpm.d/www.conf

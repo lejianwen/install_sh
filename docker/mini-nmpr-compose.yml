@@ -16,7 +16,7 @@ services:
     networks:
       - nmpr
   mariadb:
-    image: lejianwen/mariadb:mini-1.2
+    image: lejianwen/mariadb:mini-1.3
     ports:
       - '3307:3306'
     volumes:
@@ -27,7 +27,7 @@ services:
     networks:
       - nmpr
   nginx:
-    image: lejianwen/nginx:mini-lua-1.1
+    image: lejianwen/nginx:mini-lua-1.1.1
     #    build:
     #      context: ./nginx
     ports:

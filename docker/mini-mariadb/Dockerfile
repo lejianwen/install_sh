@@ -8,8 +8,10 @@ RUN mv /data/apps/mysql/bin/* /tmp/ \
 && mv /tmp/mysqldump  /data/apps/mysql/bin/ \
 && mv /tmp/mysql  /data/apps/mysql/bin/ \
 && mv /tmp/mysqladmin  /data/apps/mysql/bin/ \
-&& mv /tmp/resolveip  /data/apps/mysql/bin/
-RUN  mkdir lib64 && cp /lib64/*.so* lib64/ && rm lib64/*.so.*.* && rm /data/apps/mysql/mysql-test -rf
+&& mv /tmp/resolveip  /data/apps/mysql/bin/ \
+&& echo `strip /data/apps/mysql/bin/*  > /dev/null` \
+&& echo `strip /data/apps/mysql/lib/*/* > /dev/null`
+RUN  mkdir lib64 && cp -a /lib64/*.so* lib64/ && rm /data/apps/mysql/mysql-test -rf
 
 
 FROM busybox
