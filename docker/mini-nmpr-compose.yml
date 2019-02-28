@@ -1,7 +1,7 @@
 version: '3'
 services:
   php-fpm:
-    image: lejianwen/php:mini-70fpm-1.1
+    image: lejianwen/php:mini-70fpm-1.2
     #    build:
     #      context: ./miniphp70
     ports:

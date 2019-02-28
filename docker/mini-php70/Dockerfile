@@ -1,12 +1,12 @@
-FROM lejianwen/php:70fpm as php70-fpm
+FROM lejianwen/php:70fpm-1.1 as php70-fpm
 MAINTAINER lejianwen <84855512@qq.com>
 WORKDIR /rootfs
 RUN mkdir -p bin etc lib proc sys tmp dev/pts usr/lib64 usr/bin usr/local/bin usr/sbin usr/include \
     && chmod 777 ./tmp -R && touch etc/resolv.conf && cp /etc/nsswitch.conf etc/nsswitch.conf  \
     && echo root:x:0:0:root:/:/bin/sh > etc/passwd \
     && echo root:x:0: > etc/group \
-    && echo www:x:1001:1001:www:/:/bin/sh >> etc/passwd \
-    && echo www:x:1001: >> etc/group \
+    && echo www:x:1000:1000:www:/:/bin/sh >> etc/passwd \
+    && echo www:x:1000: >> etc/group \
     && ln -s lib lib64 && ln -s bin sbin
 RUN curl -L https://busybox.net/downloads/binaries/1.21.1/busybox-x86_64 -o /sbin/busybox \
     && chmod +x /sbin/busybox && cp /sbin/busybox bin && busybox --install -s bin && cp ./bin/busybox ./usr/sbin/busybox
@@ -52,16 +52,16 @@ RUN	cp /lib64/libcrypt.so.1 ./lib64 \
 	&& cp /lib64/libselinux.so.1 ./lib64 \
 	&& cp /lib64/libpcre.so.1 ./lib64 \
 	&& cp /lib64/libnssckbi.so ./lib64 \
-	&& cp -a /lib64/libnss*.so* ./lib64 \
 	&& cp /lib64/libstdc++.so.6 ./lib64 \
-	&& cp /lib64/libgcc_s.so.1 ./lib64 \
+    && cp /lib64/libgcc_s.so.1 ./lib64 \
+	&& cp -a /lib64/libnss*.so* ./lib64 \
 	&& cp -a /lib64/libsqlite3* ./lib64 \
 	&& cp -a /lib64/libsoftokn3* ./lib64 \
 	&& cp -a /lib64/libfreeblpriv3* ./lib64 \
     && cp -a /etc/pki etc/ \
     && ln -s /etc/pki /etc/ssl/certs \
+    && strip /data/apps/php/bin/php-cgi \
     && cp -a /data ./ \
-    && rm ./data/apps/php/bin/php[!-]* -f \
     && sed -i 's/user = nobody/user = www/' data/apps/php/etc/php-fpm.d/www.conf \
     && sed -i 's/group = nobody/group = www/' data/apps/php/etc/php-fpm.d/www.conf
 # RUN tar -cf /rootfs.tar .
