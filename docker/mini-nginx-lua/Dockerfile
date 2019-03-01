@@ -36,6 +36,7 @@ RUN cp /lib64/libdl.so.2 ./lib64 \
     && cp /lib64/libgcc_s.so.1 ./lib64 \
     && cp /usr/local/lib/libluajit-5.1.so.2 ./usr/local/lib/libluajit-5.1.so.2 \
     && cp -a /etc/pki etc/ \
+    && strip /data/apps/nginx/sbin/nginx \
     && cp -a /data ./
 
 FROM scratch
