@@ -1,4 +1,4 @@
-FROM lejianwen/php:70-1.0 as php70-builder
+FROM lejianwen/php:70fpm-1.1 as php70-fpm
 MAINTAINER lejianwen <84855512@qq.com>
 WORKDIR /rootfs
 RUN mkdir -p bin etc lib proc sys tmp dev/pts usr/lib64 usr/bin usr/local/bin usr/sbin usr/include \
@@ -60,9 +60,7 @@ RUN	cp /lib64/libcrypt.so.1 ./lib64 \
 	&& cp -a /lib64/libfreeblpriv3* ./lib64 \
     && cp -a /etc/pki etc/ \
     && ln -s /etc/pki /etc/ssl/certs \
-    && strip /data/apps/php/bin/php \
     && strip /data/apps/php/bin/php-cgi \
-    && strip /data/apps/php/bin/phpdbg \
     && strip /data/apps/php/sbin/php-fpm \
     && cp -a /data ./ \
     && sed -i 's/user = nobody/user = www/' data/apps/php/etc/php-fpm.d/www.conf \
@@ -70,6 +68,6 @@ RUN	cp /lib64/libcrypt.so.1 ./lib64 \
 # RUN tar -cf /rootfs.tar .
 FROM scratch
 MAINTAINER lejianwen <84855512@qq.com>
-COPY --from=php70-builder /rootfs /
+COPY --from=php70-fpm /rootfs /
 EXPOSE 9000
 CMD ["/data/apps/php/sbin/php-fpm", "--nodaemonize", "--fpm-config", "/data/apps/php/etc/php-fpm.conf"]

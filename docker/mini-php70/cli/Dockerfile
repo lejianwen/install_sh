@@ -1,4 +1,4 @@
-FROM lejianwen/php:70-1.0 as php70-builder
+FROM lejianwen/php:70cli as php-cli-builder
 MAINTAINER lejianwen <84855512@qq.com>
 WORKDIR /rootfs
 RUN mkdir -p bin etc lib proc sys tmp dev/pts usr/lib64 usr/bin usr/local/bin usr/sbin usr/include \
@@ -10,7 +10,6 @@ RUN mkdir -p bin etc lib proc sys tmp dev/pts usr/lib64 usr/bin usr/local/bin us
     && ln -s lib lib64 && ln -s bin sbin
 RUN curl -L https://busybox.net/downloads/binaries/1.21.1/busybox-x86_64 -o /sbin/busybox \
     && chmod +x /sbin/busybox && cp /sbin/busybox bin && busybox --install -s bin && cp ./bin/busybox ./usr/sbin/busybox
-#RUN cp -a /lib64/*.so* lib64/ \
 RUN	cp /lib64/libcrypt.so.1 ./lib64 \
 	&& cp /lib64/libz.so.1 ./lib64 \
 	&& cp /lib64/libresolv.so.2 ./lib64 \
@@ -62,14 +61,9 @@ RUN	cp /lib64/libcrypt.so.1 ./lib64 \
     && ln -s /etc/pki /etc/ssl/certs \
     && strip /data/apps/php/bin/php \
     && strip /data/apps/php/bin/php-cgi \
-    && strip /data/apps/php/bin/phpdbg \
-    && strip /data/apps/php/sbin/php-fpm \
-    && cp -a /data ./ \
-    && sed -i 's/user = nobody/user = www/' data/apps/php/etc/php-fpm.d/www.conf \
-    && sed -i 's/group = nobody/group = www/' data/apps/php/etc/php-fpm.d/www.conf
-# RUN tar -cf /rootfs.tar .
+    && cp -a /data ./
 FROM scratch
 MAINTAINER lejianwen <84855512@qq.com>
-COPY --from=php70-builder /rootfs /
+COPY --from=php-cli-builder /rootfs /
 EXPOSE 9000
-CMD ["/data/apps/php/sbin/php-fpm", "--nodaemonize", "--fpm-config", "/data/apps/php/etc/php-fpm.conf"]
+CMD ["/data/apps/php/bin/php", "-v"]
