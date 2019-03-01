@@ -34,6 +34,7 @@ RUN cp /lib64/libdl.so.2 ./lib64 \
     && cp /lib64/libnss_myhostname.so.2 ./lib64 \
     && rm /data/src -rf \
     && cp -a /etc/pki etc/ \
+    && strip /data/apps/nginx/sbin/nginx \
     && cp -a /data ./
 
 FROM scratch
