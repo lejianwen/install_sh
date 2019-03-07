@@ -15,6 +15,36 @@ services:
       - redis
     networks:
       - nmpr
+  php-cli:
+    image: lejianwen/php:mini-70cli-1.0
+    #    build:
+    #      context: ./miniphp70
+    command: top
+    volumes:
+      - ${WEB_DATA_DIR}:/data/htdocs
+      - ${PHP_CONF_DIR}:/data/apps/php/etc
+      - ${PHP_LOG_DIR}:/data/logs/php
+    depends_on:
+      - mariadb
+      - redis
+    networks:
+      - nmpr
+  swoole:
+    image: mini-swoole-lua:1.0
+      #    build:
+      #      context: ./miniphp70
+      #    ports:
+    #      - '9000:9000'
+    command: /data/apps/php/bin/php /data/htdocs/lwf/webServer start
+    volumes:
+      - ${WEB_DATA_DIR}/lwf:/data/htdocs/lwf
+      - ${PHP_CONF_DIR}:/data/apps/php/etc
+      - ${PHP_LOG_DIR}:/data/logs/php
+    depends_on:
+      - mariadb
+      - redis
+    networks:
+      - nmpr
   mariadb:
     image: lejianwen/mariadb:mini-1.4
     ports:
