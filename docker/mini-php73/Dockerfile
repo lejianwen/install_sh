@@ -1,7 +1,7 @@
-FROM lejianwen/php:72-1.0 as php72
+FROM lejianwen/php:73-1.0 as php
 MAINTAINER lejianwen <84855512@qq.com>
 WORKDIR /rootfs
-RUN mkdir -p bin etc lib proc sys tmp dev/pts usr/lib64 usr/bin usr/local/bin usr/sbin usr/include \
+RUN mkdir -p bin etc lib proc sys tmp dev/pts usr/lib64 usr/bin usr/local/bin usr/sbin usr/include usr/local/lib \
     && chmod 777 ./tmp -R && touch etc/resolv.conf && cp /etc/nsswitch.conf etc/nsswitch.conf  \
     && echo root:x:0:0:root:/:/bin/sh > etc/passwd \
     && echo root:x:0: > etc/group \
@@ -58,6 +58,7 @@ RUN	cp /lib64/libcrypt.so.1 ./lib64 \
 	&& cp -a /lib64/libsqlite3* ./lib64 \
 	&& cp -a /lib64/libsoftokn3* ./lib64 \
 	&& cp -a /lib64/libfreeblpriv3* ./lib64 \
+	&& cp /usr/local/lib/libzip.so.5 ./usr/local/lib/ \
     && cp -a /etc/pki etc/ \
     && ln -s /etc/pki /etc/ssl/certs \
     && strip /data/apps/php/bin/php-cgi \
@@ -70,6 +71,6 @@ RUN	cp /lib64/libcrypt.so.1 ./lib64 \
 # RUN tar -cf /rootfs.tar .
 FROM scratch
 MAINTAINER lejianwen <84855512@qq.com>
-COPY --from=php72 /rootfs /
+COPY --from=php /rootfs /
 EXPOSE 9000
 CMD ["/data/apps/php/sbin/php-fpm", "--nodaemonize", "--fpm-config", "/data/apps/php/etc/php-fpm.conf"]
