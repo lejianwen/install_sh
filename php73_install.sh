@@ -50,7 +50,6 @@ function phpsetup #setuppath #xiazaipath
 		--enable-fpm \
 		--enable-mbstring \
 		--enable-ftp \
-		--enable-gd-native-ttf \
 		--with-openssl \
 		--enable-pcntl \
 		--enable-sockets \
@@ -60,9 +59,9 @@ function phpsetup #setuppath #xiazaipath
 		--with-gettext \
 		--with-curl \
 		--with-jpeg-dir \
-		 --enable-opcache \
+		--enable-opcache \
 		--with-freetype-dir
-		make && make install
+		make -j16 && make install
 		cp -a ./php.ini-production $1/php/etc/php.ini
 		cp -a $1/php/etc/php-fpm.conf.default $1/php/etc/php-fpm.conf
 		cp -a $1/php/etc/php-fpm.d/www.conf.default $1/php/etc/php-fpm.d/www.conf
@@ -127,10 +126,10 @@ function setphpredis
 		$setuppath/php/bin/phpize
 		./configure --with-php-config=$setuppath/php/bin/php-config
 		make && make install
-		isyou1=`cat $setuppath/php/etc/php.ini|grep "no-debug-non-zts-20151012"|wc -l`
+		isyou1=`cat $setuppath/php/etc/php.ini|grep "no-debug-non-zts-20180731"|wc -l`
 		if [ $isyou1 -eq 0 ]
 		then
-			echo "extension_dir=\"$setuppath/php/lib/php/extensions/no-debug-non-zts-20151012/\"" >> $setuppath/php/etc/php.ini
+			echo "extension_dir=\"$setuppath/php/lib/php/extensions/no-debug-non-zts-20180731/\"" >> $setuppath/php/etc/php.ini
 		fi
 		echo 'extension = "redis.so"' >> $setuppath/php/etc/php.ini
 	fi
@@ -144,12 +143,12 @@ function setphpswoole
 		cd $xiazaipath
 		if [ ! -f "phpswoole.tar.gz" ]
 		then
-			echo -e "请输入swoole下载地址,比如: \033[32m https://github.com/swoole/swoole-src/archive/v1.10.2.tar.gz \033[0m； 不输入则使用示例地址"
+			echo -e "请输入swoole下载地址,比如: \033[32m https://github.com/swoole/swoole-src/archive/v4.3.3.tar.gz \033[0m； 不输入则使用示例地址"
 			read url
 
 			if [ -z $url ]
 		   	then
-		   		url='https://github.com/swoole/swoole-src/archive/v1.10.2.tar.gz'
+		   		url='https://github.com/swoole/swoole-src/archive/v4.3.3.tar.gz'
 		   	fi	
 	
 			wget $url -O phpswoole.tar.gz
@@ -167,10 +166,10 @@ function setphpswoole
 		./configure --with-php-config=$setuppath/php/bin/php-config \
 		--enable-openssl
 		make && make install
-		isyou1=`cat $setuppath/php/etc/php.ini|grep "no-debug-non-zts-20151012"|wc -l`
+		isyou1=`cat $setuppath/php/etc/php.ini|grep "no-debug-non-zts-20180731"|wc -l`
 		if [ $isyou1 -eq 0 ]
 		then
-			echo "extension_dir=\"$setuppath/php/lib/php/extensions/no-debug-non-zts-20151012/\"" >> $setuppath/php/etc/php.ini
+			echo "extension_dir=\"$setuppath/php/lib/php/extensions/no-debug-non-zts-20180731/\"" >> $setuppath/php/etc/php.ini
 		fi
 		echo 'extension = "swoole.so"' >> $setuppath/php/etc/php.ini
 	fi
