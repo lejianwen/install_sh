@@ -26,7 +26,7 @@ cd /data/src
 # download mariadb
 if [ ! -f mariadb.tar.gz ]
 then
-  curl -L http://mirrors.neusoft.edu.cn/mariadb//mariadb-10.3.12/source/mariadb-10.3.12.tar.gz -o mariadb.tar.gz
+  curl -L http://mirrors.neusoft.edu.cn/mariadb//mariadb-10.3.16/source/mariadb-10.3.16.tar.gz -o mariadb.tar.gz
 fi
 mkDir mariadb
 tar -zxf mariadb.tar.gz -C ./mariadb --strip-components 1
