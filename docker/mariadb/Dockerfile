@@ -6,7 +6,7 @@ RUN yum -y install epel-release openssl openssl-devel git gcc gcc++ gcc-c++ biso
     && useradd mysql -s /sbin/nologin
 VOLUME /data/mysql_data
 RUN mkdir /data/src -p && cd /data/src \
-    && curl -L http://mirrors.neusoft.edu.cn/mariadb//mariadb-10.3.12/source/mariadb-10.3.12.tar.gz -o mariadb.tar.gz \
+    && curl -L http://mirrors.neusoft.edu.cn/mariadb//mariadb-10.3.16/source/mariadb-10.3.16.tar.gz -o mariadb.tar.gz \
     && mkdir mariadb && tar -zxf mariadb.tar.gz -C ./mariadb --strip-components 1 \
     && cd mariadb \
     && cmake \
