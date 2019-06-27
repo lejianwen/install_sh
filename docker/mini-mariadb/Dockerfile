@@ -1,4 +1,4 @@
-FROM lejianwen/mariadb:1.0.2 as mariadb-builder
+FROM lejianwen/mariadb:1.1-10.3.16 as mariadb-builder
 MAINTAINER lejianwen <84855512@qq.com>
 WORKDIR /rootfs
 RUN mv /data/apps/mysql/bin/* /tmp/ \
