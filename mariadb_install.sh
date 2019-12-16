@@ -3,8 +3,18 @@
 
 yum -y install epel-release
 yum -y install openssl openssl-devel git gcc gcc-c++ bison libxml2-devel libevent-devel rpm-build cmake ncurses-devel bison bison-devel
-groupadd mysql
-useradd -g mysql mysql -s /sbin/nologin
+# 创建mysql用户
+    ifgroup=`cat /etc/group|grep mysql|wc -l`
+
+	if [ $ifgroup -eq 0 ]
+	then
+	   groupadd -g 1000 mysql
+	fi
+	ifuser=`cat /etc/passwd|grep mysql|wc -l`
+	if [ $ifuser -eq 0 ]
+	then
+	   useradd -g mysql mysql -s /sbin/nologin -u 1000
+	fi
 
 function mkDir #dir
 {

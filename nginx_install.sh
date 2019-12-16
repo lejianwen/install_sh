@@ -79,12 +79,12 @@ then
 	ifgroup=`cat /etc/group|grep www|wc -l`
 	if [ $ifgroup -eq 0 ]
 	then
-	   groupadd www
+	   groupadd -g 1000 www
 	fi
 	ifuser=`cat /etc/passwd|grep www|wc -l`
 	if [ $ifuser -eq 0 ]
 	then
-	   useradd -g www www -s /sbin/nologin
+	   useradd -g www www -s /sbin/nologin -u 1000
 	fi
 
 	cd $xiazaipath
