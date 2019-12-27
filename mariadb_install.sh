@@ -8,12 +8,12 @@ yum -y install openssl openssl-devel git gcc gcc-c++ bison libxml2-devel libeven
 
 	if [ $ifgroup -eq 0 ]
 	then
-	   groupadd -g 1000 mysql
+	   groupadd -g 1001 mysql
 	fi
 	ifuser=`cat /etc/passwd|grep mysql|wc -l`
 	if [ $ifuser -eq 0 ]
 	then
-	   useradd -g mysql mysql -s /sbin/nologin -u 1000
+	   useradd -g mysql mysql -s /sbin/nologin -u 1001
 	fi
 
 function mkDir #dir
