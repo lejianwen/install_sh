@@ -4,8 +4,8 @@ services:
     image: lejianwen/php:mini-70fpm-1.2
     #    build:
     #      context: ./miniphp70
-    ports:
-      - '9000:9000'
+    #ports:
+    #  - '9000:9000'
     volumes:
       - ${WEB_DATA_DIR}:/data/htdocs
       - ${PHP_CONF_DIR}:/data/apps/php/etc
@@ -35,9 +35,10 @@ services:
   mariadb:
     image: lejianwen/mariadb:mini-1.5
     ports:
-      - '3307:3306'
+      - '127.0.0.1:3307:3306'
     volumes:
       - ${MYSQL_DATA_DIR}:/data/mysql_data
+      - ${MYSQL_DUMP_DIR}:/data/mysql_dump
       - ${MYSQL_CONF_DIR}/my.cnf:/etc/my.cnf
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
@@ -64,7 +65,7 @@ services:
     #      context: ./redis
     command: redis-server /data/etc/redis/redis.conf
     ports:
-      - '6379:6379'
+      - '127.0.0.1:6379:6379'
     volumes:
       - ${REDIS_CONF_DIR}:/data/etc/redis
       - ${REDIS_LOG_DIR}:/data/logs/redis
