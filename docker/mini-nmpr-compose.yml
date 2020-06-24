@@ -1,11 +1,12 @@
 version: '3'
 services:
   php-fpm:
-    image: lejianwen/php:mini-70fpm-1.2
+    image: lejianwen/php:mini-7.3.6-1.1
     #    build:
     #      context: ./miniphp70
     #ports:
     #  - '9000:9000'
+    command: php-fpm --nodaemonize --fpm-config /data/apps/php/etc/php-fpm.conf
     volumes:
       - ${WEB_DATA_DIR}:/data/htdocs
       - ${PHP_CONF_DIR}:/data/apps/php/etc
@@ -16,7 +17,7 @@ services:
     networks:
       - nmpr
   php-cli:
-    image: lejianwen/php:mini-70cli-1.0
+    image: lejianwen/php:mini-7.3.6-1.1
     #    build:
     #      context: ./miniphp70
     volumes:
