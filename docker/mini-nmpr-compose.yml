@@ -6,6 +6,8 @@ services:
     #      context: ./miniphp70
     #ports:
     #  - '9000:9000'
+    environment:
+      - TZ=CST-8
     command: php-fpm --nodaemonize --fpm-config /data/apps/php/etc/php-fpm.conf
     volumes:
       - ${WEB_DATA_DIR}:/data/htdocs
@@ -25,6 +27,8 @@ services:
       - ${PHP_CONF_DIR}:/data/apps/php/etc
       - ${PHP_LOG_DIR}:/data/logs/php
       - ${NGINX_CONF_DIR}:${NGINX_CONF_DIR}
+    environment:
+      - TZ=CST-8
     depends_on:
       - mariadb
       - redis
@@ -52,6 +56,8 @@ services:
     ports:
       - '80:80'
       - '443:443'
+    environment:
+      - TZ=CST-8
     volumes:
       - ${WEB_DATA_DIR}:/data/htdocs
       - ${NGINX_CONF_DIR}:/data/apps/nginx/conf
