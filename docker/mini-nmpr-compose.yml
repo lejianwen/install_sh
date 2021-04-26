@@ -47,6 +47,7 @@ services:
       - ${MYSQL_CONF_DIR}/my.cnf:/etc/my.cnf
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - TZ=CST-8
     networks:
       - nmpr
   nginx:
