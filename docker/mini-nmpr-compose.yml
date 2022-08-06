@@ -1,7 +1,7 @@
 version: '3'
 services:
   php-fpm:
-    image: lejianwen/php:mini-7.4
+    image: lejianwen/php:mini-7.4.1
     #    build:
     #      context: ./miniphp70
     #ports:
@@ -19,7 +19,7 @@ services:
     networks:
       - nmpr
   php-cli:
-    image: lejianwen/php:mini-7.4
+    image: lejianwen/php:mini-7.4.1
     #    build:
     #      context: ./miniphp70
     volumes:
