@@ -23,12 +23,12 @@ yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/d
 yum install -y docker-ce docker-ce-cli containerd.io
 
 #
-mkdir -p /etc/docker
-tee /etc/docker/daemon.json <<-'EOF'
-{
-  "registry-mirrors": ["https://t6fb7rlr.mirror.aliyuncs.com"]
-}
-EOF
+#mkdir -p /etc/docker
+#tee /etc/docker/daemon.json <<-'EOF'
+#{
+#  "registry-mirrors": ["https://t6fb7rlr.mirror.aliyuncs.com"]
+#}
+#EOF
 systemctl daemon-reload
 systemctl start docker
 docker run hello-world
