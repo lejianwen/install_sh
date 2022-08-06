@@ -15,10 +15,10 @@ device-mapper-persistent-data \
 lvm2
 
 # 官方
-# yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 
 # 阿里云镜像
-yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+# yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
 
 yum install -y docker-ce docker-ce-cli containerd.io
 
