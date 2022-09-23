@@ -16,6 +16,9 @@ services:
     depends_on:
       - mariadb
       - redis
+    #开启慢日志需要
+    cap_add:
+      - SYS_PTRACE
     networks:
       - nmpr
   php-cli:
