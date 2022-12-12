@@ -54,7 +54,7 @@ services:
     networks:
       - nmpr
   nginx:
-    image: lejianwen/nginx:mini-lua-1.1.1
+    image: lejianwen/nginx:1.20.1-lua-mini
     #    build:
     #      context: ./nginx
     ports:
